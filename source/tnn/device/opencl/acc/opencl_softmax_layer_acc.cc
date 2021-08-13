@@ -43,6 +43,8 @@ Status OpenCLSoftmaxLayerAcc::Init(Context *context, LayerParam *param, LayerRes
         kernel_name = "SoftmaxChannel";
     } else if (softmax_param->axis == 2) {
         kernel_name = "SoftmaxHeight";
+    } else if (softmax_param->axis == 3) {
+        kernel_name = "SoftmaxWidth";
     } else {
         LOGE("not support axis = %d in softmax yet!\n", softmax_param->axis);
         return Status(TNNERR_OPENCL_ACC_INIT_ERROR, "invalid softmax axis");
@@ -155,6 +157,12 @@ Status OpenCLSoftmaxLayerAcc::Reshape(const std::vector<Blob *> &inputs, const s
             execute_units_[0].ocl_kernel.setArg(idx++, UP_DIV(axis_n, workgroup_size));
             execute_units_[0].ocl_kernel.setArg(idx++, workgroup_size * 4 * type_size, nullptr);
         }
+    } else if (3 == softmax_param->axis) {
+        int shape[]  = {batch, channelBlocks, height, width};
+        uint32_t idx = SetExecuteUnit2DSizeInfoDefault(execute_units_[0], output_dims);
+        execute_units_[0].ocl_kernel.setArg(idx++, *((cl::Image *)inputs[0]->GetHandle().base));
+        execute_units_[0].ocl_kernel.setArg(idx++, *((cl::Image *)outputs[0]->GetHandle().base));
+        execute_units_[0].ocl_kernel.setArg(idx++, shape);
     } else {
         LOGE("not support axis = %d in softmax yet!\n", softmax_param->axis);
         return Status(TNNERR_OPENCL_ACC_RESHAPE_ERROR, "invalid softmax axis");
