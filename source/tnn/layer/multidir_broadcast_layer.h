@@ -16,6 +16,8 @@
 #define TNN_SOURCE_TNN_LAYER_MULTIDIR_BROADCAST_LAYER_H_
 
 #include "tnn/layer/elementwise_layer.h"
+#include "tnn/device/cpu/acc/cpu_binary_op_layer_acc.h"
+
 namespace TNN_NS {
 
 class MultidirBroadcastLayer : public ElementwiseLayer {

@@ -122,6 +122,8 @@ Status MultidirBroadcastLayer::InferOutputShape(bool ignore_error) {
             output_blobs_[0]->GetBlobDesc().dims = input_shape;
             return TNN_OK;
         }
+
+        auto binary_layer_acc = dynamic_cast<CpuBinaryOpLayerAcc*>(layer_acc_);
         if (weight_shape.size() <= 0) {
             weight_shape       = DimsVector(input_shape.size(), 1);
             int layer_res_size = layer_res->element_handle.GetDataCount();
@@ -147,8 +149,14 @@ Status MultidirBroadcastLayer::InferOutputShape(bool ignore_error) {
                 return Status(TNNERR_LAYER_ERR, "Error: unsupported broadcast type");
             }
             layer_res->element_shape = weight_shape;
+            if(binary_layer_acc) {
+                binary_layer_acc->SynacElementShape(weight_shape);
+            }
         } else {
             layer_res->element_shape = weight_shape;
+            if(binary_layer_acc) {
+                binary_layer_acc->SynacElementShape(weight_shape);
+            }
         }
         EXPAND(input_shape, weight_shape);
         DimsVector dims_output               = DimsVectorUtils::Max(input_shape, weight_shape);

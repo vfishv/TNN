@@ -33,6 +33,15 @@ Status ReduceLayer::InferOutputShape(bool ignore_error) {
     Blob* output_blob = output_blobs_[0];
     auto dims  = input_blob->GetBlobDesc().dims;
 
+    // reduce over all the dimensions of the input tensor
+    if (layer_param->axis.size() == 1 && layer_param->axis[0] == INT_MIN) {
+        layer_param->axis.clear();
+        const int dims_size = dims.size();
+        for (int i = 0; i < dims_size; i++) {
+            layer_param->axis.push_back(i);
+        }
+    }
+
     std::set<int> axis_filter;
     for (auto& axis : layer_param->axis) {
         axis = axis >= 0 ? axis : axis + (int)dims.size();

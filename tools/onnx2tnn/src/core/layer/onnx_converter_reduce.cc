@@ -23,6 +23,9 @@ string OnnxConverterReduce::TNNLayerParam(NodeProto &node,
     int64_t keepdims          = get_node_attr_i(node, "keepdims", 1);
     layer_param << keepdims << " ";
 
+    if (axes.empty()) {
+        axes.push_back(INT_MIN);
+    }
     for (int64_t axis : axes) {
         layer_param << axis << " ";
     }

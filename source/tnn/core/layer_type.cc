@@ -245,6 +245,8 @@ static std::map<std::string, LayerType> global_layer_type_map = {
     {"Softsign", LAYER_SOFTSIGN},
     {"TopK", LAYER_TOPK},
     {"LogSoftmax", LAYER_LOGSOFTMAX},
+    {"CumSum", LAYER_CUMSUM},
+    {"Not", LAYER_NOT},
 };
 
 LayerType GlobalConvertLayerType(std::string layer_type_str) {

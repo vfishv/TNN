@@ -30,6 +30,12 @@ public:
 
     virtual Status Forward(const std::vector<Blob *> &inputs, const std::vector<Blob *> &outputs);
 
+    /*
+     * In DECLARE_CPU_BINARY_OP_ACC, resource_ will be changed by CPU_CONVERT_HALF_RESOURCE.
+     * This function is used to synchronize element_shape in resource_.
+     */
+    void SynacElementShape(const DimsVector &dims);
+
 private:
     virtual Status Calculate(const std::vector<Blob *> &input_blobs, const std::vector<void *> &input_ptrs,
                              const std::vector<DimsVector> &input_shapes, Blob *output) = 0;

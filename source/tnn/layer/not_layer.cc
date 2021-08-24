@@ -9,12 +9,15 @@
 //
 // Unless required by applicable law or agreed to in writing, software distributed
 // under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR
-// CONDITIONS OF ANY KIND, either express or implied. See the License for the 
+// CONDITIONS OF ANY KIND, either express or implied. See the License for the
 // specific language governing permissions and limitations under the License.
 
-#include "onnx_op_converter.h"
-#include "onnx_utility.h"
+#include "tnn/layer/elementwise_layer.h"
 
-REGISTER_OP_CONVERTER_NoParamNoWeight(Not, Not);
+namespace TNN_NS {
 
+DECLARE_ELEMENTWISE_LAYER(Not, LAYER_NOT);
 
+REGISTER_ELEMENTWISE_LAYER(Not, LAYER_NOT);
+
+}  // namespace TNN_NS

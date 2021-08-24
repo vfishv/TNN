@@ -9,12 +9,30 @@
 //
 // Unless required by applicable law or agreed to in writing, software distributed
 // under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR
-// CONDITIONS OF ANY KIND, either express or implied. See the License for the 
+// CONDITIONS OF ANY KIND, either express or implied. See the License for the
 // specific language governing permissions and limitations under the License.
 
-#include "onnx_op_converter.h"
-#include "onnx_utility.h"
+#include "base_layer.h"
+#include "tnn/utils/dims_utils.h"
 
-REGISTER_OP_CONVERTER_NoParamNoWeight(Not, Not);
+namespace TNN_NS {
+DECLARE_LAYER(CumSum, LAYER_CUMSUM);
 
+Status CumSumLayer::InferOutputDataType() {
+    return BaseLayer::InferOutputDataType();
+}
 
+Status CumSumLayer::InferOutputShape(bool ignore_error) {
+    BaseLayer::InferOutputShape(ignore_error);
+
+    Blob* input_blob  = input_blobs_[0];
+    Blob* output_blob = output_blobs_[0];
+
+    output_blob->GetBlobDesc().dims = input_blob->GetBlobDesc().dims;
+
+    return TNN_OK;
+}
+
+REGISTER_LAYER(CumSum, LAYER_CUMSUM);
+
+}  // namespace TNN_NS

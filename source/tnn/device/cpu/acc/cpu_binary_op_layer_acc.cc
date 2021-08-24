@@ -65,4 +65,10 @@ Status CpuBinaryOpLayerAcc::Forward(const std::vector<Blob *> &inputs, const std
     Status status = Calculate(inputs, input_ptrs, input_shapes, output);
     return status;
 }
+
+void CpuBinaryOpLayerAcc::SynacElementShape(const DimsVector &dims) {
+    auto layer_res           = dynamic_cast<EltwiseLayerResource *>(resource_);
+    layer_res->element_shape = dims;
+}
+
 }  // namespace TNN_NS

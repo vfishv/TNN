@@ -17,7 +17,7 @@
 
 namespace TNN_NS {
 
-DECLARE_CPU_BINARY_OP_ACC(Mul, LAYER_SUB);
+DECLARE_CPU_BINARY_OP_ACC(Mul, LAYER_MUL);
 
 Status CpuMulLayerAcc::Calculate(const std::vector<Blob *> &input_blobs, const std::vector<void *> &input_ptrs,
                                  const std::vector<DimsVector> &input_shapes, Blob *output) {

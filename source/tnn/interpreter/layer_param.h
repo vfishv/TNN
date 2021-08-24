@@ -673,6 +673,15 @@ struct LogSoftmaxLayerParam : public LayerParam {
     PARAM_COPY(LogSoftmaxLayerParam)
 };
 
+struct CumSumLayerParam : public LayerParam {
+    int exclusive = 0;
+    int reverse   = 0;
+    std::vector<int> axis;
+
+    PARAM_COPY(CumSumLayerParam);
+
+};
+
 };  // namespace TNN_NS
 
 #endif  // TNN_SOURCE_TNN_INTERPRETER_LAYER_PARAM_H

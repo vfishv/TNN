@@ -9,12 +9,21 @@
 //
 // Unless required by applicable law or agreed to in writing, software distributed
 // under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR
-// CONDITIONS OF ANY KIND, either express or implied. See the License for the 
+// CONDITIONS OF ANY KIND, either express or implied. See the License for the
 // specific language governing permissions and limitations under the License.
 
-#include "onnx_op_converter.h"
-#include "onnx_utility.h"
+#include "tnn/device/cpu/acc/cpu_unary_layer_acc.h"
 
-REGISTER_OP_CONVERTER_NoParamNoWeight(Not, Not);
+namespace TNN_NS {
 
+typedef struct not_operator : unary_operator {
+    virtual int8_t operator()(int8_t in) {
+        return in == 0;
+    }
+} NOT_OP;
 
+DECLARE_UNARY_ACC(Not, LAYER_NOT, NOT_OP);
+
+REGISTER_CPU_ACC(Not, LAYER_NOT);
+
+}  // namespace TNN_NS
