@@ -62,7 +62,7 @@
             android:layout_gravity="center"
             android:gravity="left"
             android:text="device: \nfps detect: "
-            android:textColor="#bf0000"
+            android:textColor="#FF8000"
             android:textSize="18dp"/>
     </RelativeLayout>
     <RelativeLayout
