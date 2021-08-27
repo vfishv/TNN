@@ -41,6 +41,7 @@ public class DrawView extends SurfaceView
     {
         super(context, attrs);
         paint.setARGB(255, 0, 255, 0);
+        paint.setStrokeWidth(3);
         key_paint.setARGB(255, 0, 255, 0);
         paint.setStyle(Paint.Style.STROKE);
         key_paint.setStyle(Paint.Style.STROKE);
@@ -197,7 +198,8 @@ public class DrawView extends SurfaceView
         {
             for (int i=0; i<rects.size(); i++) {
                 Log.d(TAG, "rect " + rects.get(i));
-                paint.setARGB(255, 0, 255, 0);
+//                paint.setARGB(255, 0, 255, 0);
+                paint.setARGB(255, 255, 0, 0);//改为红色
                 canvas.drawRect(rects.get(i), paint);
                 if(labels.size() > 0) {
                     canvas.drawText(labels.get(i), rects.get(i).left, rects.get(i).top - 5, paint);
