@@ -97,8 +97,20 @@ public class DrawView extends SurfaceView
         }
 
         if(points_list.size() > 0) {
+            //key_paint.setARGB(255, 0, 0, 255);
+            key_paint.setTextSize(36);
             for(int i = 0; i < points_list.size(); ++i) {
                 float[] points = points_list.get(i);
+
+                key_paint.setARGB(255, 0, 0, 255);
+                key_paint.setStrokeWidth(2);
+                int plen = points.length;
+                for (int j = 0; j < plen; j += 2) {
+                    canvas.drawText(""+(j+2)/2, points[j], points[j+1], key_paint);
+                }
+
+                key_paint.setARGB(255, 0, 255, 0);
+                key_paint.setStrokeWidth(8);
                 canvas.drawPoints(points, key_paint);
             }
         }
