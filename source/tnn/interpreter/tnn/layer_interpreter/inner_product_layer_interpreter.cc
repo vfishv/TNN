@@ -48,10 +48,25 @@ Status InnerProductLayerInterpreter::InterpretResource(Deserializer& deserialize
     layer_res->bias_handle = bias;
 
     if (weights.GetDataType() == DATA_TYPE_INT8) {
-        // quantized
-        RawBuffer scale;
-        deserializer.GetRaw(scale);
-        layer_res->scale_handle = scale;
+        // Use the DataType of first_buffer to distinguish the old and new versions
+        // old version: scale_handle(float)
+        // new version: zero_point_handle(int8), scale_handle(float)
+        RawBuffer first_buffer;
+        deserializer.GetRaw(first_buffer);
+        if (first_buffer.GetDataType() == DATA_TYPE_INT8) {
+            layer_res->zero_point_handle = first_buffer;
+            GET_BUFFER_FOR_ATTR(layer_res, scale_handle, deserializer);
+        } else if (first_buffer.GetDataType() == DATA_TYPE_FLOAT) {
+            layer_res->scale_handle = first_buffer;
+            int total_byte_size     = first_buffer.GetDataCount() * sizeof(char);
+            RawBuffer zero_point_buffer(total_byte_size);
+            zero_point_buffer.SetDataType(DATA_TYPE_INT8);
+            memset(zero_point_buffer.force_to<int8_t*>(), 0, total_byte_size);
+            layer_res->zero_point_handle = zero_point_buffer;
+        } else {
+            LOGE("invalid quantized layer Resource\n");
+            return -1;
+        }
     }
 
     return TNN_OK;
@@ -89,9 +104,14 @@ Status InnerProductLayerInterpreter::SaveResource(Serializer& serializer, LayerP
     serializer.PutRaw(layer_res->bias_handle);
 
     if (layer_param->quantized) {
+        // put zero_point_handle in front of scale_handle to distinguish the old and new versions
+        serializer.PutRaw(layer_res->zero_point_handle);
         serializer.PutRaw(layer_res->scale_handle);
     }
-
+    if (layer_param->dynamic_range_quantized) {
+        // now dynamic range quantization is to use symmetric quantization, only save scale
+        serializer.PutRaw(layer_res->scale_handle);
+    }
     return TNN_OK;
 }
 
