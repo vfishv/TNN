@@ -25,8 +25,12 @@
 namespace TNN_NS {
 
 typedef std::map<std::string, DimsVector> BlobShapesMap;
+typedef std::map<std::string, DataType> BlobDataTypeMap;
 typedef std::map<std::string, std::shared_ptr<RawBuffer> > ConstantResource;
 typedef std::map<std::string, int > ConstantResourceFlag;
+
+// used to name scale obtained after dynamic range quantization constant weights
+const std::string DynamicRangeQuantScaleSuffix = "_dynamic_range_quant_scale";
 
 struct LayerResource {
     std::string name = "";
@@ -51,6 +55,7 @@ struct ConvLayerResource : public LayerResource {
 
     // extra scale handle for different precision
     RawBuffer scale_handle;
+    RawBuffer zero_point_handle;
 };
 
 struct BatchNormLayerResource : public LayerResource {
@@ -79,6 +84,8 @@ struct InnerProductLayerResource : public LayerResource {
 
     // extra scale handle for different precision
     RawBuffer scale_handle;
+    RawBuffer zero_point_handle;
+
 };
 
 struct PReluLayerResource : public LayerResource {
@@ -89,7 +96,9 @@ struct PReluLayerResource : public LayerResource {
 struct IntScaleResource : public LayerResource {
     // scale buffer
     RawBuffer scale_handle;
-    // bias buffer
+    RawBuffer zero_point_handle;
+
+    // bias buffer: this raw buffer will not be used in future
     RawBuffer bias_handle;
 };
 
@@ -153,6 +162,8 @@ struct UnsqueezeLayerResource : public SqueezeLayerResource {};
 
 struct MatMulLayerResource : public LayerResource {
     RawBuffer weight;
+    // extra scale handle for different precision
+    RawBuffer scale_handle;
 };
 
 struct BiasAddLayerResource : public LayerResource {
