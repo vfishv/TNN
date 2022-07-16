@@ -196,7 +196,7 @@ public class ImageBlazeFaceDetectFragment extends BaseFragment {
             rects.add(new Rect((int) (tmpFaceInfo.x1), (int) (tmpFaceInfo.y1), (int) (tmpFaceInfo.x2), (int) (tmpFaceInfo.y2)));
             for (int j = 0; j < tmpFaceInfo.keypoints.length; j++) {
                 mPaint.setARGB(255, 0, 255, 0);
-                mPaint.setStrokeWidth(5);
+                mPaint.setStrokeWidth(6);
                 canvas.drawPoint(tmpFaceInfo.keypoints[j][0], tmpFaceInfo.keypoints[j][1], mPaint);
             }
         }
