@@ -5,13 +5,13 @@ import android.util.Log;
 
 public class TNNLib {
 
-    public static final String LIB_NAME_TNM = "tnn_wrapper";
+    public static final String LIB_NAME_TNN = "tnn_wrapper";
 
     private long nativePtr;
 
     static {
         try {
-            System.loadLibrary(TNNLib.LIB_NAME_TNM);
+            System.loadLibrary(com.tencent.tnn.demo.TNNLib.LIB_NAME_TNN);
         }catch(Exception e) {
             e.printStackTrace();
         }catch(Error e) {
