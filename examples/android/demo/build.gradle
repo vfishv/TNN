@@ -1,8 +1,10 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 30
-    buildToolsVersion "30.0.3"
+    compileSdkVersion 36
+    //buildToolsVersion "36.0.0"
+    namespace "com.tencent.tnn.demo"
+    ndkVersion "25.2.9519653"
 
     lintOptions {
         checkReleaseBuilds false
@@ -16,6 +18,7 @@ android {
         targetSdkVersion 22
         versionCode 1000
         versionName "1.0.0"
+        applicationId "com.tencent.tnn.demo"
 
         externalNativeBuild {
             cmake {
