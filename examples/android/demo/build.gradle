@@ -3,12 +3,14 @@ apply plugin: 'com.android.application'
 android {
     compileSdk 36
     //buildToolsVersion "36.0.0"
+    namespace "com.tencent.tnn.demo"
 
     defaultConfig {
         minSdkVersion 15
         targetSdkVersion 32
         versionCode 1000
         versionName "1.0.0"
+        applicationId "com.tencent.tnn.demo"
 
         externalNativeBuild {
             cmake {
