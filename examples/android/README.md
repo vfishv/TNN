@@ -6,3 +6,5 @@ source ~/.zshrc
 
 
 set(TNN_OPENCL_ENABLE OFF CACHE BOOL "" FORCE)
+
+minSdkVersion 21
