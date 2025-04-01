@@ -309,6 +309,29 @@ struct MetalLayerNormParams {
     float eps;
 };
 
+/** GroupNorm Param Struct **/
+struct MetalGroupNormParams {
+    int input_width;
+    int input_height;
+    int input_size;
+    int input_slice;
+
+    int output_width;
+    int output_height;
+    int output_size;
+    int output_slice;
+    int share_channel = 0;
+    int batch;
+
+    int group_area;
+    int channel_area;
+    int channel;
+    int group;
+    int batch_time_group;
+    int channels_per_group;
+    float eps;
+};
+
 /** Conv Param Struct **/
 struct MetalConvParams {
     int input_width;
@@ -702,7 +725,7 @@ struct MetalPermuteParams {
 
     int strides[4];
     int orders[4];
-    int channel_dim_size; // the input size alongside the new chanel dimension
+    int channel_dim_size; // the input size alongside the new channel dimension
     int channel_dim; // which axis of the output corresponds the input channel
 };
 
@@ -722,7 +745,7 @@ struct MetalDynamicPermuteParams {
 
     int strides[MAX_DIM_COUNT];
 
-    int channel_dim_size; // the input size alongside the new chanel dimension
+    int channel_dim_size; // the input size alongside the new channel dimension
     int channel_dim; // which axis of the output corresponds the input channel
 };
 
